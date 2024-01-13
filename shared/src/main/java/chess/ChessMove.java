@@ -12,6 +12,9 @@ public class ChessMove {
                      ChessPiece.PieceType promotionPiece) {
     }
 
+    public ChessMove() {
+    }
+
     /**
      * @return ChessPosition of starting location
      */
