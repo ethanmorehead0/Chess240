@@ -6,6 +6,11 @@ import static passoffTests.TestFactory.*;
 
 public class BishopMoveTests {
 
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);
+    }
+
     @Test
     public void bishopMoveUntilEdge() {
         validateMoves("""

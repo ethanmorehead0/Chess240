@@ -2,6 +2,7 @@ package chess;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Objects;
 
 /**
  * Represents a single chess piece
@@ -12,6 +13,29 @@ import java.util.Collection;
 public class ChessPiece {
     ChessGame.TeamColor color;
     ChessPiece.PieceType type;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ChessPiece that = (ChessPiece) o;
+        return color == that.color && type == that.type;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(color, type);
+    }
+
+    @Override
+
+    public String toString() {
+        return "ChessPiece{" +
+                "color=" + color +
+                ", type=" + type +
+                '}';
+    }
+
     public ChessPiece(ChessGame.TeamColor pieceColor, ChessPiece.PieceType type1) {
         color=pieceColor;
         type=type1;
@@ -51,8 +75,13 @@ public class ChessPiece {
      * @return Collection of valid moves
      */
     public Collection<ChessMove> pieceMoves(ChessBoard board, ChessPosition myPosition) {
-        ArrayList<ChessMove> a=new ArrayList<ChessMove>();
-
-        return new ArrayList<>();
+        ArrayList<ChessMove> a=new ArrayList<>();
+        a.add(new ChessMove(myPosition, new ChessPosition(5,0), null));
+        a.add(new ChessMove(myPosition, new ChessPosition(4,-1), null));
+        a.add(new ChessMove(myPosition, new ChessPosition(4,-1), null));
+        a.add(new ChessMove(myPosition, new ChessPosition(3,2), null));
+        a.add(new ChessMove(myPosition, new ChessPosition(5,0), null));
+        a.add(new ChessMove(myPosition, new ChessPosition(5,0), null));
+        return a;
     }
 }
