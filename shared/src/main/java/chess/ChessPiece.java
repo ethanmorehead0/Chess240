@@ -3,7 +3,7 @@ package chess;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Objects;
-
+import chess.Pieces.BishopMove;
 /**
  * Represents a single chess piece
  * <p>
@@ -75,12 +75,7 @@ public class ChessPiece {
      */
     public Collection<ChessMove> pieceMoves(ChessBoard board, ChessPosition myPosition) {
         ArrayList<ChessMove> a=new ArrayList<>();
-        a.add(new ChessMove(myPosition, new ChessPosition(5,0), null));
-        a.add(new ChessMove(myPosition, new ChessPosition(4,-1), null));
-        a.add(new ChessMove(myPosition, new ChessPosition(4,-1), null));
-        a.add(new ChessMove(myPosition, new ChessPosition(3,2), null));
-        a.add(new ChessMove(myPosition, new ChessPosition(5,0), null));
-        a.add(new ChessMove(myPosition, new ChessPosition(5,0), null));
+        new BishopMove(a,myPosition,board);
         return a;
     }
 }
