@@ -33,22 +33,6 @@ public class KnightMove {
             }
 
         }
-        /*
-        int[][] iterator ={{-1,-1},{-1,1},{1,-1},{1,1}};
-
-        for(int j=1; (row+i[0]*j)>=0 && (row+i[0]*j)<8 && (column+i[1]*j)<8 && (column+i[1]*j)>=0;j++ ){
-            positionTest = new ChessPosition(row+i[0]*j+1, column+i[1]*j+1);
-            spaceTest = board.getPiece(positionTest);
-            if (spaceTest==null) {
-                a.add(new ChessMove(myPosition, positionTest, null));
-            } else if (spaceTest.getTeamColor()!=board.getPiece(myPosition).getTeamColor()){
-                a.add(new ChessMove(myPosition, positionTest, null));
-                break;
-            } else {
-                break;
-            }*/
-        //System. out. println(column+i[1]*j);
-        //System. out. println(j);
 
 
 
