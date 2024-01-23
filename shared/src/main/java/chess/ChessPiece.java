@@ -82,6 +82,8 @@ public class ChessPiece {
                 break;
             case PieceType.QUEEN: new QueenMove(a,myPosition,board);
                 break;
+            case PieceType.KING: new KingMove(a,myPosition,board);
+                break;
         }
         return a;
     }
