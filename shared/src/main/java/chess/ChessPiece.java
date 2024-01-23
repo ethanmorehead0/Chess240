@@ -86,6 +86,8 @@ public class ChessPiece {
                 break;
             case PieceType.KNIGHT: new KnightMove(a,myPosition,board);
                 break;
+            case PieceType.PAWN: new PawnMove(a,myPosition,board);
+                break;
         }
         return a;
     }
