@@ -70,7 +70,9 @@ public class PawnMove {
             for(ChessPiece.PieceType type: ChessPiece.PieceType.values()){
                 if (type== ChessPiece.PieceType.PAWN){continue;}
                 if (type== ChessPiece.PieceType.KING){continue;}
-                a.add(new ChessMove(myPosition, positionTest,type));
+                a.add(new ChessMove(myPosition, positionTest, type));
+
+
             }
 
         }else {
