@@ -15,9 +15,8 @@ public class PawnMove {
         int column = myPosition.getColumn();
         ChessPosition positionTest; //position to test
         ChessPiece spaceTest; // space to test//{direction, promotion, start}
-        //which color to use
-        //positionTest = new ChessPosition(myPosition.getRow()+i+1, myPosition.getColumn()+j+1);
-        //spaceTest = board.getPiece(positionTest);
+
+
 
 
         if(board.getPiece(myPosition).getTeamColor()== ChessGame.TeamColor.WHITE){
