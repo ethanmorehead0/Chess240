@@ -61,6 +61,15 @@ public class ChessGame {
      * @throws InvalidMoveException if move is invalid
      */
     public void makeMove(ChessMove move) throws InvalidMoveException {
+
+        if(move.getPromotionPiece()==null) {
+            board.addPiece(move.getEndPosition(), board.getPiece(move.getStartPosition()));
+            board.addPiece(move.getStartPosition(), null);
+        }else {
+
+            board.addPiece(move.getEndPosition(), new ChessPiece(team, move.getPromotionPiece()));
+            board.addPiece(move.getStartPosition(), null);
+        }
         if(isInCheck(team)){
             throw new InvalidMoveException("Check");
 
@@ -69,16 +78,6 @@ public class ChessGame {
 
         } else if (isInStalemate(team)) {
             throw new InvalidMoveException("Stalemate");
-        }else
-        {
-            if(move.getPromotionPiece()==null) {
-                board.addPiece(move.getEndPosition(), board.getPiece(move.getStartPosition()));
-                board.addPiece(move.getStartPosition(), null);
-            }else {
-
-                board.addPiece(move.getEndPosition(), new ChessPiece(team, move.getPromotionPiece()));
-                board.addPiece(move.getStartPosition(), null);
-            }
         }
     }
 
@@ -99,7 +98,32 @@ public class ChessGame {
      * @return True if the specified team is in checkmate
      */
     public boolean isInCheckmate(TeamColor teamColor) {
-        return false;
+        int startRow = kingPosition(teamColor).getRow()+1;
+        int startColum = kingPosition(teamColor).getColumn()+1;
+
+        System.out.println(board.getPiece(new ChessPosition(startRow, startColum)));
+        ChessPosition positionToTest;
+        boolean safeOption=false;
+        if(!isInCheck(teamColor)){
+            return false;
+        }
+        System.out.println("Check");
+        for (int i=0; i<3; i++){
+            for (int j=0; j<3; j++) {
+                positionToTest = new ChessPosition(startRow + i+1, startColum + j+1);
+                if (i+startRow>0 && i+startRow<8 && j+startColum>0 && j+startColum<8){
+                    if (board.getPiece(positionToTest) == null || board.getPiece(positionToTest).getTeamColor() != teamColor) {
+                        if (!isInDanger(positionToTest, teamColor)) {
+                            return false;
+                        }
+                    }
+                }
+            }
+        }
+
+
+
+        return true;
     }
 
     /**
@@ -116,8 +140,8 @@ public class ChessGame {
 
     public boolean isInDanger(ChessPosition positionToCheck, TeamColor teamColor){
 
-        int row = positionToCheck.getRow();
-        int column = positionToCheck.getColumn();
+        int row = positionToCheck.getRow()+1;
+        int column = positionToCheck.getColumn()+1;
         int iterate=0;
 
         ChessPosition positionTest;
@@ -134,7 +158,9 @@ public class ChessGame {
             for(int j=1; (row+i[0]*j)>=0 && (row+i[0]*j)<8 && (column+i[1]*j)<8 && (column+i[1]*j)>=0;j++ ){
                 positionTest = new ChessPosition(row+i[0]*j+1, column+i[1]*j+1);
                 spaceTest = board.getPiece(positionTest);
-
+                if(spaceTest!=null && spaceTest.getTeamColor()==teamColor && spaceTest.getPieceType()== ChessPiece.PieceType.KING){
+                    continue;
+                }
                 if (spaceTest!=null && spaceTest.getTeamColor()!=teamColor){
                     type=spaceTest.getPieceType();
                     if (iterate<8 && type == ChessPiece.PieceType.QUEEN){
@@ -165,8 +191,28 @@ public class ChessGame {
             }
             iterate+=1;
         }
+        int multiplier=1;
+        if(teamColor==TeamColor.BLACK){
+            multiplier=-1;
+        }
 
+        positionTest= new ChessPosition(row+multiplier-1,column+1);
+        System.out.println(multiplier);
+        System.out.println(positionTest);
+        System.out.println(row);
+        System.out.println(column);
+        System.out.println(board.getPiece(positionTest));
 
+        if(column<8 && board.getPiece(positionTest) != null&&board.getPiece(positionTest).getTeamColor()!=teamColor && board.getPiece(positionTest).getPieceType()==ChessPiece.PieceType.PAWN){
+
+            System.out.println(board.getPiece(positionTest));
+            return true;
+        }
+        positionTest= new ChessPosition(row+multiplier-1,column-1);
+        System.out.println(positionTest);
+        if(column>0 && board.getPiece(positionTest) != null&&board.getPiece(positionTest).getTeamColor()!=teamColor && board.getPiece(positionTest).getPieceType()==ChessPiece.PieceType.PAWN){
+            return true;
+        }
         return false;
     }
 
