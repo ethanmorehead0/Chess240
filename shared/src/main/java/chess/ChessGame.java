@@ -140,8 +140,8 @@ public class ChessGame {
 
     public boolean isInDanger(ChessPosition positionToCheck, TeamColor teamColor){
 
-        int row = positionToCheck.getRow()+1;
-        int column = positionToCheck.getColumn()+1;
+        int row = positionToCheck.getRow();
+        int column = positionToCheck.getColumn();
         int iterate=0;
 
         ChessPosition positionTest;
@@ -196,21 +196,25 @@ public class ChessGame {
             multiplier=-1;
         }
 
-        positionTest= new ChessPosition(row+multiplier-1,column+1);
-        System.out.println(multiplier);
+        positionTest= new ChessPosition(row+multiplier+1,column+2);
+        /*System.out.println(multiplier);
         System.out.println(positionTest);
         System.out.println(row);
         System.out.println(column);
-        System.out.println(board.getPiece(positionTest));
-
-        if(column<8 && board.getPiece(positionTest) != null&&board.getPiece(positionTest).getTeamColor()!=teamColor && board.getPiece(positionTest).getPieceType()==ChessPiece.PieceType.PAWN){
+        System.out.println(board.getPiece(positionTest));*/
+        if(row+multiplier>7 || row+multiplier<0){
+            return false;
+        }
+        if(column<7 && board.getPiece(positionTest) != null&&board.getPiece(positionTest).getTeamColor()!=teamColor && board.getPiece(positionTest).getPieceType()==ChessPiece.PieceType.PAWN){
 
             System.out.println(board.getPiece(positionTest));
             return true;
         }
-        positionTest= new ChessPosition(row+multiplier-1,column-1);
+        positionTest= new ChessPosition(row+multiplier+1,column);
         System.out.println(positionTest);
-        if(column>0 && board.getPiece(positionTest) != null&&board.getPiece(positionTest).getTeamColor()!=teamColor && board.getPiece(positionTest).getPieceType()==ChessPiece.PieceType.PAWN){
+        if(column>1 && board.getPiece(positionTest) != null&&board.getPiece(positionTest).getTeamColor()!=teamColor && board.getPiece(positionTest).getPieceType()==ChessPiece.PieceType.PAWN){
+
+            System.out.println(board.getPiece(positionTest));
             return true;
 
         }
