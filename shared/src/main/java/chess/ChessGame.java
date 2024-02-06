@@ -123,8 +123,12 @@ public class ChessGame {
         ChessPosition positionTest;
         ChessPiece spaceTest; // space to test
         ChessPiece.PieceType type;
-        int[][] iterator={{-1,-1},{-1,1},{1,-1},{1,1}, {-1,0},{1,0},{0,-1},{0,1}};
-
+        int[][] iterator={{-1,-1},{-1,1},{1,-1},{1,1}, {-1,0},{1,0},{0,-1},{0,1},
+                        {1,2},{2,1},{-1,2},{-2,1},{1,-2},{2,-1},{-1,-2},{-2,-1}};
+        //QUEEN 0-7
+        //BISHOP 0-3
+        //ROOK 4-7
+        //KNIGHT 8-15
         for(int[] i:iterator){
 
             for(int j=1; (row+i[0]*j)>=0 && (row+i[0]*j)<8 && (column+i[1]*j)<8 && (column+i[1]*j)>=0;j++ ){
@@ -136,6 +140,9 @@ public class ChessGame {
                     if (iterate<8 && type == ChessPiece.PieceType.QUEEN){
                         return true;
                     }
+                    else if (iterate<8 && type == ChessPiece.PieceType.KING && j==1){
+                        return true;
+                    }
                     else if (iterate<4 && type == ChessPiece.PieceType.BISHOP){
                         return true;
                     }
@@ -143,9 +150,22 @@ public class ChessGame {
                         return true;
                     }
                 }
+                if(iterate>7){
+                    if (spaceTest!=null && spaceTest.getTeamColor()!=teamColor){
+                        type=spaceTest.getPieceType();
+                        if (iterate<16 && type == ChessPiece.PieceType.KNIGHT){
+                            return true;
+                        }
+
+                    }
+                    break;
+                }
+
+
             }
             iterate+=1;
         }
+
 
         return false;
     }
