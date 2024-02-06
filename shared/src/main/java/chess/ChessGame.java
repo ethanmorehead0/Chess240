@@ -212,6 +212,7 @@ public class ChessGame {
         System.out.println(positionTest);
         if(column>0 && board.getPiece(positionTest) != null&&board.getPiece(positionTest).getTeamColor()!=teamColor && board.getPiece(positionTest).getPieceType()==ChessPiece.PieceType.PAWN){
             return true;
+
         }
         return false;
     }
