@@ -62,9 +62,15 @@ public class ChessGame {
      */
     public void makeMove(ChessMove move) throws InvalidMoveException {
         if(isInCheck(team)){
-            throw new InvalidMoveException("Invalid Move");
+            throw new InvalidMoveException("Check");
 
-        }else{
+        } else if (isInCheckmate(team)) {
+            throw new InvalidMoveException("Checkmate");
+
+        } else if (isInStalemate(team)) {
+            throw new InvalidMoveException("Stalemate");
+        }else
+        {
             if(move.getPromotionPiece()==null) {
                 board.addPiece(move.getEndPosition(), board.getPiece(move.getStartPosition()));
                 board.addPiece(move.getStartPosition(), null);
@@ -83,7 +89,7 @@ public class ChessGame {
      * @return True if the specified team is in check
      */
     public boolean isInCheck(TeamColor teamColor) {
-        return false;
+        return isInDanger(kingPosition(teamColor),teamColor);
     }
 
     /**
@@ -105,6 +111,55 @@ public class ChessGame {
      */
     public boolean isInStalemate(TeamColor teamColor) {
         return false;
+    }
+
+
+    public boolean isInDanger(ChessPosition positionToCheck, TeamColor teamColor){
+
+        int row = positionToCheck.getRow();
+        int column = positionToCheck.getColumn();
+        int iterate=0;
+
+        ChessPosition positionTest;
+        ChessPiece spaceTest; // space to test
+        ChessPiece.PieceType type;
+        int[][] iterator={{-1,-1},{-1,1},{1,-1},{1,1}, {-1,0},{1,0},{0,-1},{0,1}};
+
+        for(int[] i:iterator){
+
+            for(int j=1; (row+i[0]*j)>=0 && (row+i[0]*j)<8 && (column+i[1]*j)<8 && (column+i[1]*j)>=0;j++ ){
+                positionTest = new ChessPosition(row+i[0]*j+1, column+i[1]*j+1);
+                spaceTest = board.getPiece(positionTest);
+
+                if (spaceTest!=null && spaceTest.getTeamColor()!=teamColor){
+                    type=spaceTest.getPieceType();
+                    if (iterate<8 && type == ChessPiece.PieceType.QUEEN){
+                        return true;
+                    }
+                    else if (iterate<4 && type == ChessPiece.PieceType.BISHOP){
+                        return true;
+                    }
+                    else if (iterate>3 && iterate<8 && type == ChessPiece.PieceType.ROOK){
+                        return true;
+                    }
+                }
+            }
+            iterate+=1;
+        }
+
+        return false;
+    }
+
+    public ChessPosition kingPosition(TeamColor teamColor){
+        for(int i=1;i<9;i++){
+            for(int j=1;j<9;j++){
+                if(board.getPiece(new ChessPosition(i,j)) != null&& board.getPiece(new ChessPosition(i,j)).getPieceType()== ChessPiece.PieceType.KING && board.getPiece(new ChessPosition(i,j)).getTeamColor()==teamColor){
+                    return new ChessPosition(i,j);
+                }
+            }
+        }
+        return null;
+
     }
 
     /**
