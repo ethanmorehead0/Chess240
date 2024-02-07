@@ -87,7 +87,6 @@ public class ChessGame {
             }
             board.addPiece(move.getStartPosition(), startPiece);
             board.addPiece(move.getEndPosition(), killed);
-            System.out.println(move+": "+kingPosition(team));
         }
 
         return a;
