@@ -14,7 +14,7 @@ import java.util.Collection;
 public class ChessGame {
 
 
-    private TeamColor team=TeamColor.WHITE;
+    private TeamColor team;
     private ChessBoard board;
 
     public ChessGame() {
@@ -60,11 +60,14 @@ public class ChessGame {
      * startPosition
      */
     public Collection<ChessMove> validMoves(ChessPosition startPosition) {
-
+        if(team==null){
+            team=board.getPiece(startPosition).getTeamColor();
+        }
         Collection<ChessMove> a = board.getPiece(startPosition).pieceMoves(board, startPosition);
         Collection<ChessMove> b = new ArrayList<>(a);
 
         for(ChessMove move:b){
+
             /*if(board.getPiece(move.getStartPosition()).getTeamColor()!=team){
                 a.remove(move);
             }*/
@@ -87,7 +90,10 @@ public class ChessGame {
             }
             board.addPiece(move.getStartPosition(), startPiece);
             board.addPiece(move.getEndPosition(), killed);
+
         }
+
+
 
         return a;
     }
@@ -99,10 +105,10 @@ public class ChessGame {
      * @throws InvalidMoveException if move is invalid
      */
     public void makeMove(ChessMove move) throws InvalidMoveException {
-        if(validMoves(move.getStartPosition())==null || !validMoves(move.getStartPosition()).contains(move)) {
-            throw new InvalidMoveException();
-        }else if(board.getPiece(move.getStartPosition()).getTeamColor()!=team){
+        if(board.getPiece(move.getStartPosition()).getTeamColor()!=team){
             throw new InvalidMoveException("Wrong turn:"+team+board.getPiece(move.getStartPosition()).getTeamColor());
+        }else if(validMoves(move.getStartPosition())==null || !validMoves(move.getStartPosition()).contains(move)) {
+            throw new InvalidMoveException();
         }
 
 
@@ -125,6 +131,7 @@ public class ChessGame {
      * @return True if the specified team is in check
      */
     public boolean isInCheck(TeamColor teamColor) {
+
         return isInDanger(kingPosition(teamColor),teamColor);
     }
 
